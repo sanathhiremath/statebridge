@@ -1,0 +1,180 @@
+{
+  "version": "0.1",
+  "run_id": "92056be3752d448abb69ebe4ab40d695",
+  "workflow_id": "shipment-1042",
+  "kind": "Recorded deterministic workflow with an actual subprocess hard exit",
+  "stages": [
+    {
+      "label": "Requested",
+      "state": "CREATED",
+      "reservation_count": 0,
+      "stock_remaining": 5,
+      "dispatch_count": 0,
+      "approver": null,
+      "events": [
+        {
+          "sequence": 1,
+          "action": "replacement_requested",
+          "created_at": "2026-10-29T06:48:15.855253+00:00"
+        }
+      ]
+    },
+    {
+      "label": "Worker crashed after tool commit",
+      "state": "CREATED",
+      "reservation_count": 1,
+      "stock_remaining": 4,
+      "dispatch_count": 0,
+      "approver": null,
+      "events": [
+        {
+          "sequence": 1,
+          "action": "replacement_requested",
+          "created_at": "2026-10-29T06:48:15.855253+00:00"
+        }
+      ]
+    },
+    {
+      "label": "Resumed without duplicate reservation",
+      "state": "AWAITING_APPROVAL",
+      "reservation_count": 1,
+      "stock_remaining": 4,
+      "dispatch_count": 0,
+      "approver": null,
+      "events": [
+        {
+          "sequence": 1,
+          "action": "replacement_requested",
+          "created_at": "2026-10-29T06:48:15.855253+00:00"
+        },
+        {
+          "sequence": 2,
+          "action": "reservation_acknowledged",
+          "created_at": "2026-10-29T06:48:16.413937+00:00"
+        }
+      ]
+    },
+    {
+      "label": "Dispatch denied before approval",
+      "state": "AWAITING_APPROVAL",
+      "reservation_count": 1,
+      "stock_remaining": 4,
+      "dispatch_count": 0,
+      "approver": null,
+      "events": [
+        {
+          "sequence": 1,
+          "action": "replacement_requested",
+          "created_at": "2026-10-29T06:48:15.855253+00:00"
+        },
+        {
+          "sequence": 2,
+          "action": "reservation_acknowledged",
+          "created_at": "2026-10-29T06:48:16.413937+00:00"
+        }
+      ]
+    },
+    {
+      "label": "Approved",
+      "state": "APPROVED",
+      "reservation_count": 1,
+      "stock_remaining": 4,
+      "dispatch_count": 0,
+      "approver": "demo-reviewer",
+      "events": [
+        {
+          "sequence": 1,
+          "action": "replacement_requested",
+          "created_at": "2026-10-29T06:48:15.855253+00:00"
+        },
+        {
+          "sequence": 2,
+          "action": "reservation_acknowledged",
+          "created_at": "2026-10-29T06:48:16.413937+00:00"
+        },
+        {
+          "sequence": 3,
+          "action": "approved_by:demo-reviewer",
+          "created_at": "2026-10-29T06:48:16.418485+00:00"
+        }
+      ]
+    },
+    {
+      "label": "Dispatched",
+      "state": "DISPATCHED",
+      "reservation_count": 1,
+      "stock_remaining": 4,
+      "dispatch_count": 1,
+      "approver": "demo-reviewer",
+      "events": [
+        {
+          "sequence": 1,
+          "action": "replacement_requested",
+          "created_at": "2026-10-29T06:48:15.855253+00:00"
+        },
+        {
+          "sequence": 2,
+          "action": "reservation_acknowledged",
+          "created_at": "2026-10-29T06:48:16.413937+00:00"
+        },
+        {
+          "sequence": 3,
+          "action": "approved_by:demo-reviewer",
+          "created_at": "2026-10-29T06:48:16.418485+00:00"
+        },
+        {
+          "sequence": 4,
+          "action": "dispatch_acknowledged",
+          "created_at": "2026-10-29T06:48:16.425924+00:00"
+        }
+      ]
+    },
+    {
+      "label": "Repeated delivery requests remain idempotent",
+      "state": "DISPATCHED",
+      "reservation_count": 1,
+      "stock_remaining": 4,
+      "dispatch_count": 1,
+      "approver": "demo-reviewer",
+      "events": [
+        {
+          "sequence": 1,
+          "action": "replacement_requested",
+          "created_at": "2026-10-29T06:48:15.855253+00:00"
+        },
+        {
+          "sequence": 2,
+          "action": "reservation_acknowledged",
+          "created_at": "2026-10-29T06:48:16.413937+00:00"
+        },
+        {
+          "sequence": 3,
+          "action": "approved_by:demo-reviewer",
+          "created_at": "2026-10-29T06:48:16.418485+00:00"
+        },
+        {
+          "sequence": 4,
+          "action": "dispatch_acknowledged",
+          "created_at": "2026-10-29T06:48:16.425924+00:00"
+        }
+      ]
+    }
+  ],
+  "checks": {
+    "real_worker_exit_code": 23,
+    "reservation_survived_crash": true,
+    "checkpoint_lagged_tool_commit": true,
+    "one_reservation": true,
+    "stock_decremented_once": true,
+    "approval_enforced": true,
+    "one_dispatch": true,
+    "completed": true
+  },
+  "limitations": [
+    "Deterministic local workflow; no language model plans or executes actions.",
+    "Inventory and dispatch are sandbox database side effects, not real shipments.",
+    "Approval records an actor string; authentication and remote authorization are not implemented.",
+    "SQLite write serialization is local, not a distributed lease or exactly-once network guarantee.",
+    "Snapshots are captured with workers quiescent; cross-database reads are not an atomic distributed snapshot."
+  ]
+}

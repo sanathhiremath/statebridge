@@ -1,0 +1,17 @@
+__pycache__/
+.pytest_cache/
+.venv/
+*.egg-info/
+artifacts/runs/
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+*.pth
+*.pt
+*.pkl
+*.joblib
+*.sqlite3
+*.sqlite3-*
+.cache/

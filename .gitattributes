@@ -1,0 +1,6 @@
+* text=auto eol=lf
+artifacts/** -text
+examples/** -text
+*.png binary
+*.jpg binary
+*.jpeg binary
